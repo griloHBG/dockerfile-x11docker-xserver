@@ -9,7 +9,9 @@
 #
 # x11docker on github: https://github.com/mviereck/x11docker
 
-FROM debian:bullseye AS nxbuild
+ARG IMAGE_ARCH=linux/arm/v7
+
+FROM --platform=${IMAGE_ARCH} debian:bullseye AS nxbuild
 
 #########################
 
