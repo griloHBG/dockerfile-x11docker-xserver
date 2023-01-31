@@ -9,7 +9,9 @@
 #
 # x11docker on github: https://github.com/mviereck/x11docker
 
-FROM debian:bullseye AS nxbuild
+ARG IMAGE_ARCH=linux/arm64
+
+FROM --platform=${IMAGE_ARCH} debian:bullseye AS nxbuild
 
 #########################
 
@@ -26,7 +28,7 @@ RUN echo "deb-src http://deb.debian.org/debian bullseye main" >> /etc/apt/source
     sed -i 's/# define XtransFailSoft NO/# define XtransFailSoft YES/' nx-X11/config/cf/X11.rules && \
     debuild -b -uc -us
 
-FROM debian:bullseye
+FROM --platform=${IMAGE_ARCH} debian:bullseye
 COPY --from=nxbuild /nxbuild/nxagent_3.*.deb /nxagent.deb
 
 # cleanup script for use after apt-get
